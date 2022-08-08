@@ -34,7 +34,7 @@ impl Context {
 
     #[inline]
     pub fn get_state_mut<State: 'static>(&mut self) -> Option<&mut State> {
-        /// TODO: return a wrapper like RefMut which invokes observables 
+        // TODO: return a wrapper like RefMut which invokes observables 
         self.states.get_mut()
     }
 
