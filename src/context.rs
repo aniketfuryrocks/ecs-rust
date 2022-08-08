@@ -1,5 +1,5 @@
 //! Context own state, readers (observers) and writers (writers).
-use crate::observers::TypeReg;
+use crate::type_reg::TypeReg;
 
 #[derive(Default)]
 pub struct Context {
@@ -34,6 +34,7 @@ impl Context {
 
     #[inline]
     pub fn get_state_mut<State: 'static>(&mut self) -> Option<&mut State> {
+        /// TODO: return a wrapper like RefMut which invokes observables 
         self.states.get_mut()
     }
 
@@ -45,5 +46,9 @@ impl Context {
     #[inline]
     pub fn get_entity_mut<Entity: 'static>(&mut self) -> Option<&mut Entity> {
         self.entities.get_mut()
+    }
+
+    pub fn call_observables<State>(&self) {
+
     }
 }

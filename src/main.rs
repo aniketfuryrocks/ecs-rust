@@ -1,7 +1,8 @@
 use context::Context;
 
 mod context;
-mod observers;
+mod type_reg;
+mod observer;
 
 fn main() {
     counter();
