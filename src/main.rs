@@ -41,6 +41,7 @@ fn counter() {
             stdin.read_line(&mut buf).unwrap();
             *context.get_state_mut::<i32>().unwrap() += 1;
 
+            // not required
             context.get_entity_mut::<Node>().unwrap().counter =
                 context.get_state::<i32>().unwrap().to_owned();
             context.get_entity::<Node>().unwrap().render();
