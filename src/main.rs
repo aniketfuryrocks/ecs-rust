@@ -1,11 +1,21 @@
 use context::Context;
 
+use self::observer::Observer;
+
 mod context;
-mod type_reg;
 mod observer;
+mod type_reg;
 
 fn main() {
+    let s = String::from("sdfg");
+    take(a, (&s, &s));
     counter();
+}
+
+fn a(name: &String, name2: &String) {}
+
+fn take<Obs: Observer<Args, ARGS_LEN>, Args, const ARGS_LEN: usize>(f: Obs, args: Args) {
+    f.call(args)
 }
 
 #[derive(Default)]
