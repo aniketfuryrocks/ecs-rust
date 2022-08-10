@@ -55,7 +55,7 @@ impl Context {
     }
 
     pub fn notify<State: 'static>(&mut self) {
-        let state_type_id = TypeId::of::<State>();
+        let changed_state_id = TypeId::of::<State>();
         // temp
         for observer in &self.observers {
             observer.call(&mut self.entities, &self.states) 
