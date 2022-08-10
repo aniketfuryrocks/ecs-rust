@@ -1,18 +1,10 @@
-//pub type Observers = Vec<Observer>;
-//
-//pub trait Observer {}
-//
-//impl<Func, A> Observer for Func
-//    where Func: Fn(A) -> () + 'static {
-//}
-
 use hashbrown::HashMap;
 use std::any::{Any, TypeId};
 
 /// Type Registry
 #[derive(Default)]
 pub struct TypeReg {
-    reg: HashMap<TypeId, Box<dyn Any>>,
+    pub reg: HashMap<TypeId, Box<dyn Any>>,
 }
 
 impl TypeReg {

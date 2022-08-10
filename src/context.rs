@@ -1,11 +1,14 @@
 //! Context own state, readers (observers) and writers (writers).
+use std::any::TypeId;
+
+use crate::observer::{Callable, IntoCallable};
 use crate::type_reg::TypeReg;
 
 #[derive(Default)]
 pub struct Context {
     states: TypeReg,
     entities: TypeReg,
-    observers: TypeReg,
+    observers: Vec<Callable>,
 }
 
 impl Context {
@@ -22,8 +25,11 @@ impl Context {
     }
 
     #[inline]
-    pub fn add_observer<Observer: 'static>(&mut self, observer: Observer) -> &mut Self {
-        self.observers.add(observer);
+    pub fn add_observer<Observer: IntoCallable<Args>, Args>(
+        &mut self,
+        observer: Observer,
+    ) -> &mut Self {
+        self.observers.push(observer.into_callable());
         self
     }
 
@@ -32,9 +38,9 @@ impl Context {
         self.states.get()
     }
 
+    // TODO: return a wrapper like RefMut which calls notify
     #[inline]
     pub fn get_state_mut<State: 'static>(&mut self) -> Option<&mut State> {
-        // TODO: return a wrapper like RefMut which invokes observables 
         self.states.get_mut()
     }
 
@@ -48,7 +54,11 @@ impl Context {
         self.entities.get_mut()
     }
 
-    pub fn call_observables<State>(&self) {
-
+    pub fn notify<State: 'static>(&mut self) {
+        let state_type_id = TypeId::of::<State>();
+        // temp
+        for observer in &self.observers {
+            observer.call(&mut self.entities, &self.states) 
+        }
     }
 }
